@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "ChatGPT History Blur",
+    "description": "Application name"
+  },
+  "appDescription": {
+    "message": "Blurs ChatGPT sidebar chat history with hide/show toggle.",
+    "description": "Application description"
+  },
+  "showChats": {
+    "message": "Show chats",
+    "description": "Toggle text when blur is enabled"
+  },
+  "hideChats": {
+    "message": "Hide chats",
+    "description": "Toggle text when blur is disabled"
+  },
+  "blurToggle": {
+    "message": "Blur ChatGPT History",
+    "description": "Label for blur toggle in popup"
+  }
+}

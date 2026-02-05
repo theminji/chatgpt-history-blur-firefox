@@ -1,11 +1,12 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="UTF-8">
     <style>
       body {
         font-family: sans-serif;
         padding: 10px;
-        width: 160px;
+        width: 200px;
       }
 
       .box {
@@ -13,6 +14,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 12px;
+        margin-bottom: 12px;
       }
 
       span {
@@ -20,12 +22,38 @@
         gap: 8px;
         cursor: pointer;
       }
+
+      .language-box {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      #languageSelect {
+        padding: 4px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        font-size: 12px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
     <div class="box">
-      <span>Blur ChatGPT History </span>
+      <span id="popupLabel">Blur ChatGPT History </span>
       <input type="checkbox" id="toggle" />
+    </div>
+    <div class="language-box">
+      <label for="languageSelect" style="font-size: 12px;">Language:</label>
+      <select id="languageSelect">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="ja">日本語</option>
+        <option value="zh_CN">中文</option>
+        <option value="tr">Türkçe</option>
+      </select>
     </div>
     <script src="storage.js"></script>
     <script src="popup.js"></script>

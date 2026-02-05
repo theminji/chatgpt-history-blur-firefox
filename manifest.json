@@ -1,12 +1,20 @@
 {
   "manifest_version": 3,
-  "name": "ChatGPT History Blur",
+  "name": "__MSG_appName__",
   "version": "1.0.1",
-  "description": "Blurs ChatGPT sidebar chat history with hide/show toggle.",
+  "description": "__MSG_appDescription__",
+  "default_locale": "en",
   "icons": {
-    "128": "icons/icon.png"
+    "128": "icons/icon128.png",
+    "512": "icons/icon512.png"
   },
   "permissions": ["storage"],
+  "web_accessible_resources": [
+    {
+      "resources": ["_locales/en/messages.json", "_locales/es/messages.json", "_locales/fr/messages.json", "_locales/de/messages.json", "_locales/ja/messages.json", "_locales/zh_CN/messages.json", "_locales/tr/messages.json"],
+      "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"]
+    }
+  ],
   "content_scripts": [
     {
       "matches": [

@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "ChatGPT历史记录模糊",
+    "description": "Application name"
+  },
+  "appDescription": {
+    "message": "模糊 ChatGPT 侧边栏聊天历史记录，带有显示/隐藏切换。",
+    "description": "Application description"
+  },
+  "showChats": {
+    "message": "显示聊天",
+    "description": "Toggle text when blur is enabled"
+  },
+  "hideChats": {
+    "message": "隐藏聊天",
+    "description": "Toggle text when blur is disabled"
+  },
+  "blurToggle": {
+    "message": "ChatGPT历史记录模糊",
+    "description": "Label for blur toggle in popup"
+  }
+}

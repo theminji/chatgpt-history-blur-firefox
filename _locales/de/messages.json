@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "ChatGPT Verlauf Unschärfe",
+    "description": "Application name"
+  },
+  "appDescription": {
+    "message": "Verschwimmt die Chat-Historie der ChatGPT-Seitenleiste mit Umschalter zum Anzeigen/Ausblenden.",
+    "description": "Application description"
+  },
+  "showChats": {
+    "message": "Chats anzeigen",
+    "description": "Toggle text when blur is enabled"
+  },
+  "hideChats": {
+    "message": "Chats ausblenden",
+    "description": "Toggle text when blur is disabled"
+  },
+  "blurToggle": {
+    "message": "ChatGPT Verlauf Unschärfe",
+    "description": "Label for blur toggle in popup"
+  }
+}

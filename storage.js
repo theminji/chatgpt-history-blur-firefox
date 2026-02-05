@@ -1,5 +1,6 @@
 const BLUR_KEY_SETTINGS = "blur_settings";
 const BLUR_KEY_CURRENT = "current_blur_state";
+const LANGUAGE_KEY = "selected_language";
 
 const storage = {
   async getBlurSettings() {

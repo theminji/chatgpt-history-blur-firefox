@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "ChatGPT Geçmiş Bulanıklaştırma",
+    "description": "Application name"
+  },
+  "appDescription": {
+    "message": "ChatGPT kenar çubuğu sohbet geçmişini göster/gizle geçişi ile bulanıklaştırır.",
+    "description": "Application description"
+  },
+  "showChats": {
+    "message": "Sohbetleri göster",
+    "description": "Toggle text when blur is enabled"
+  },
+  "hideChats": {
+    "message": "Sohbetleri gizle",
+    "description": "Toggle text when blur is disabled"
+  },
+  "blurToggle": {
+    "message": "ChatGPT Geçmiş Bulanıklaştırma",
+    "description": "Label for blur toggle in popup"
+  }
+}

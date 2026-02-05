@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "ChatGPT Desenfoque del Historial",
+    "description": "Application name"
+  },
+  "appDescription": {
+    "message": "Desenfoca el historial de chats de la barra lateral de ChatGPT con alternancia mostrar/ocultar.",
+    "description": "Application description"
+  },
+  "showChats": {
+    "message": "Mostrar chats",
+    "description": "Toggle text when blur is enabled"
+  },
+  "hideChats": {
+    "message": "Ocultar chats",
+    "description": "Toggle text when blur is disabled"
+  },
+  "blurToggle": {
+    "message": "Desenfoque del Historial de ChatGPT",
+    "description": "Label for blur toggle in popup"
+  }
+}

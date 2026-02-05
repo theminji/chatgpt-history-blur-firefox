@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "Flou de l'Historique ChatGPT",
+    "description": "Application name"
+  },
+  "appDescription": {
+    "message": "Floute l'historique des chats de la barre latérale ChatGPT avec bascule afficher/masquer.",
+    "description": "Application description"
+  },
+  "showChats": {
+    "message": "Afficher les chats",
+    "description": "Toggle text when blur is enabled"
+  },
+  "hideChats": {
+    "message": "Masquer les chats",
+    "description": "Toggle text when blur is disabled"
+  },
+  "blurToggle": {
+    "message": "Flou de l'Historique ChatGPT",
+    "description": "Label for blur toggle in popup"
+  }
+}

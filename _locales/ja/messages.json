@@ -1,0 +1,22 @@
+{
+  "appName": {
+    "message": "ChatGPT履歴ぼかし",
+    "description": "Application name"
+  },
+  "appDescription": {
+    "message": "ChatGPTサイドバーのチャット履歴をぼかし、表示/非表示の切り替えがあります。",
+    "description": "Application description"
+  },
+  "showChats": {
+    "message": "チャットを表示",
+    "description": "Toggle text when blur is enabled"
+  },
+  "hideChats": {
+    "message": "チャットを非表示",
+    "description": "Toggle text when blur is disabled"
+  },
+  "blurToggle": {
+    "message": "ChatGPT履歴ぼかし",
+    "description": "Label for blur toggle in popup"
+  }
+}
