@@ -1,28 +1,49 @@
 const toggle = document.getElementById("toggle");
 const popupLabel = document.getElementById("popupLabel");
 const languageSelect = document.getElementById("languageSelect");
+const extensionApi = typeof browser !== "undefined" ? browser : chrome;
 
 const BLUR_KEY_SETTINGS = "blur_settings";
 const LANGUAGE_KEY = "selected_language";
 
-popupLabel.textContent = chrome.i18n.getMessage("blurToggle");
+function storageGet(keys) {
+  if (extensionApi.storage?.local?.get.length <= 1) {
+    return extensionApi.storage.local.get(keys);
+  }
 
-chrome.storage.local.get([LANGUAGE_KEY], (res) => {
-  const savedLanguage = res[LANGUAGE_KEY] || chrome.i18n.getUILanguage().split('-')[0];
+  return new Promise((resolve) => {
+    extensionApi.storage.local.get(keys, resolve);
+  });
+}
+
+function storageSet(value) {
+  if (extensionApi.storage?.local?.set.length <= 1) {
+    return extensionApi.storage.local.set(value);
+  }
+
+  return new Promise((resolve) => {
+    extensionApi.storage.local.set(value, resolve);
+  });
+}
+
+popupLabel.textContent = extensionApi.i18n.getMessage("blurToggle");
+
+storageGet([LANGUAGE_KEY]).then((res) => {
+  const savedLanguage = res[LANGUAGE_KEY] || extensionApi.i18n.getUILanguage().split("-")[0];
   languageSelect.value = savedLanguage;
-  chrome.storage.local.set({ [LANGUAGE_KEY]: savedLanguage });
+  storageSet({ [LANGUAGE_KEY]: savedLanguage });
 });
 
-chrome.storage.local.get([BLUR_KEY_SETTINGS], (res) => {
+storageGet([BLUR_KEY_SETTINGS]).then((res) => {
   toggle.checked = res[BLUR_KEY_SETTINGS] !== false;
 });
 
 toggle.addEventListener("change", () => {
-  chrome.storage.local.set({ [BLUR_KEY_SETTINGS]: toggle.checked });
+  storageSet({ [BLUR_KEY_SETTINGS]: toggle.checked });
 });
 
 languageSelect.addEventListener("change", (e) => {
   const selectedLanguage = e.target.value;
-  chrome.storage.local.set({ [LANGUAGE_KEY]: selectedLanguage });
+  storageSet({ [LANGUAGE_KEY]: selectedLanguage });
   location.reload();
 });

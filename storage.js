@@ -1,6 +1,27 @@
 const BLUR_KEY_SETTINGS = "blur_settings";
 const BLUR_KEY_CURRENT = "current_blur_state";
 const LANGUAGE_KEY = "selected_language";
+const storageApi = typeof browser !== "undefined" ? browser : chrome;
+
+function storageGet(key) {
+  if (storageApi.storage?.local?.get.length <= 1) {
+    return storageApi.storage.local.get([key]);
+  }
+
+  return new Promise((resolve) => {
+    storageApi.storage.local.get([key], resolve);
+  });
+}
+
+function storageSet(value) {
+  if (storageApi.storage?.local?.set.length <= 1) {
+    return storageApi.storage.local.set(value);
+  }
+
+  return new Promise((resolve) => {
+    storageApi.storage.local.set(value, resolve);
+  });
+}
 
 const storage = {
   async getBlurSettings() {
@@ -21,9 +42,7 @@ const storage = {
 
   async getValue(key, defaultValue = true) {
     try {
-      const res = await new Promise(r =>
-        chrome.storage.local.get([key], r)
-      );
+      const res = await storageGet(key);
       return res?.[key] !== false;
     } catch {
       return defaultValue;
@@ -31,6 +50,6 @@ const storage = {
   },
 
   setValue(key, value) {
-    chrome.storage.local.set({ [key]: value });
+    storageSet({ [key]: value });
   }
 };

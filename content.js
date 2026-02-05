@@ -1,5 +1,49 @@
+const extensionApi = typeof browser !== "undefined" ? browser : chrome;
+
+function storageGet(keys) {
+  if (extensionApi.storage?.local?.get.length <= 1) {
+    return extensionApi.storage.local.get(keys);
+  }
+
+  return new Promise((resolve) => {
+    extensionApi.storage.local.get(keys, resolve);
+  });
+}
+
+const HISTORY_LINK_SELECTOR = [
+  "#history > a",
+  "nav a[href*='/c/']",
+  "aside a[href*='/c/']",
+  "[data-testid='history'] a[href*='/c/']"
+].join(", ");
+
+function getHistoryItems() {
+  const seen = new Set();
+  const items = [];
+
+  document.querySelectorAll(HISTORY_LINK_SELECTOR).forEach((item) => {
+    if (seen.has(item)) return;
+    if (!(item instanceof HTMLAnchorElement)) return;
+    if (!item.href.includes("/c/")) return;
+
+    seen.add(item);
+    items.push(item);
+  });
+
+  return items;
+}
+
+function isActiveHistoryItem(item) {
+  return (
+    item.hasAttribute("data-active") ||
+    item.getAttribute("aria-current") === "page" ||
+    item.closest("[aria-current='page']") !== null ||
+    item.closest("[data-active]") !== null
+  );
+}
+
 function setItemBlur(item, enabled) {
-  const isActive = item.hasAttribute("data-active");
+  const isActive = isActiveHistoryItem(item);
   item.style.filter = (!enabled || isActive) ? "none" : "blur(3.2px)";
 }
 
@@ -7,40 +51,40 @@ let translations = {};
 
 async function getTranslation(key) {
   return new Promise(async (resolve) => {
-    chrome.storage.local.get(["selected_language"], async (res) => {
-      const language = res.selected_language || chrome.i18n.getUILanguage().split('-')[0];
+    const res = await storageGet(["selected_language"]);
+    const language = res.selected_language || extensionApi.i18n.getUILanguage().split("-")[0];
       
-      if (!translations[language]) {
+    if (!translations[language]) {
+      try {
+        const url = extensionApi.runtime.getURL(`_locales/${language}/messages.json`);
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Failed to load: ${response.status}`);
+        }
+        translations[language] = await response.json();
+      } catch (e) {
+        console.warn(`Could not load language ${language}, falling back to English`, e);
         try {
-          const url = chrome.runtime.getURL(`_locales/${language}/messages.json`);
+          const url = extensionApi.runtime.getURL(`_locales/en/messages.json`);
           const response = await fetch(url);
-          if (!response.ok) {
-            throw new Error(`Failed to load: ${response.status}`);
-          }
           translations[language] = await response.json();
-        } catch (e) {
-          console.warn(`Could not load language ${language}, falling back to English`, e);
-          try {
-            const url = chrome.runtime.getURL(`_locales/en/messages.json`);
-            const response = await fetch(url);
-            translations[language] = await response.json();
-          } catch (fallbackError) {
-            console.error("Failed to load English fallback", fallbackError);
-            resolve(key);
-            return;
-          }
+        } catch (fallbackError) {
+          console.error("Failed to load English fallback", fallbackError);
+          resolve(key);
+          return;
         }
       }
-      
-      resolve(translations[language][key]?.message || key);
-    });
+    }
+    
+    resolve(translations[language][key]?.message || key);
   });
 }
 
 async function applyBlur() {
   const enabled = await storage.getBlurState();
+  const historyItems = getHistoryItems();
 
-  document.querySelectorAll("#history > a").forEach((item) => {
+  historyItems.forEach((item) => {
     setItemBlur(item, enabled);
 
     if (item.dataset.blurListenerAttached) return;
@@ -49,7 +93,7 @@ async function applyBlur() {
 
     item.addEventListener("mouseenter", () => {
       const isBlurEnabled = item.dataset.blurEnabled === "true";
-      if (isBlurEnabled && !item.hasAttribute("data-active")) {
+      if (isBlurEnabled && !isActiveHistoryItem(item)) {
         item.style.filter = "none";
       }
     });
@@ -60,7 +104,7 @@ async function applyBlur() {
     });
   });
 
-  document.querySelectorAll("#history > a").forEach((item) => {
+  historyItems.forEach((item) => {
     item.dataset.blurEnabled = enabled ? "true" : "false";
   });
 }
@@ -69,7 +113,13 @@ async function injectToggleText() {
   if (document.querySelector(".blur-toggle-wrapper")) return;
 
   const historyEl = document.querySelector("#history");
-  if (!historyEl || !historyEl.parentElement) return;
+  const firstHistoryItem = getHistoryItems()[0];
+  const insertParent =
+    historyEl?.parentElement ||
+    firstHistoryItem?.parentElement;
+  const insertBeforeNode = historyEl || firstHistoryItem;
+
+  if (!insertParent || !insertBeforeNode) return;
 
   const wrapper = document.createElement("button");
   wrapper.className = "blur-toggle-wrapper text-token-text-tertiary";
@@ -103,7 +153,7 @@ async function injectToggleText() {
   });
 
   wrapper.appendChild(toggle);
-  historyEl.parentElement.insertBefore(wrapper, historyEl);
+  insertParent.insertBefore(wrapper, insertBeforeNode);
 }
 
 let injectTimeout;
@@ -117,7 +167,7 @@ const observer = new MutationObserver(() => {
 
 observer.observe(document.body, { childList: true, subtree: true });
 
-chrome.storage.onChanged.addListener((changes, areaName) => {
+extensionApi.storage.onChanged.addListener((changes, areaName) => {
   if (areaName === 'local' && changes.selected_language) {
     const toggleEl = document.querySelector(".blur-toggle-text");
     if (toggleEl) {
