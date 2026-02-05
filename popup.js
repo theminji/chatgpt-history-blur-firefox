@@ -2,6 +2,9 @@ const toggle = document.getElementById("toggle");
 const popupLabel = document.getElementById("popupLabel");
 const languageSelect = document.getElementById("languageSelect");
 
+const BLUR_KEY_SETTINGS = "blur_settings";
+const LANGUAGE_KEY = "selected_language";
+
 popupLabel.textContent = chrome.i18n.getMessage("blurToggle");
 
 chrome.storage.local.get([LANGUAGE_KEY], (res) => {
