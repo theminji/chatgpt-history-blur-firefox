@@ -7,7 +7,10 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "chatgpt-history-blur@example.com",
-      "strict_min_version": "109.0"
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   },
   "icons": {
@@ -17,8 +20,19 @@
   "permissions": ["storage"],
   "web_accessible_resources": [
     {
-      "resources": ["_locales/en/messages.json", "_locales/es/messages.json", "_locales/fr/messages.json", "_locales/de/messages.json", "_locales/ja/messages.json", "_locales/zh_CN/messages.json", "_locales/tr/messages.json"],
-      "matches": ["https://chatgpt.com/*", "https://chat.openai.com/*"]
+      "resources": [
+        "_locales/en/messages.json",
+        "_locales/es/messages.json",
+        "_locales/fr/messages.json",
+        "_locales/de/messages.json",
+        "_locales/ja/messages.json",
+        "_locales/zh_CN/messages.json",
+        "_locales/tr/messages.json"
+      ],
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*"
+      ]
     }
   ],
   "content_scripts": [
