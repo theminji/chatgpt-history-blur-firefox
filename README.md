@@ -13,10 +13,8 @@ A browser extension for Firefox that blurs your ChatGPT chat history for privacy
 - Active chat stays visible
 
 ## Installation (Firefox)
-1. Clone or download this repo
-2. Open `about:debugging#/runtime/this-firefox`
-3. Click "Load Temporary Add-on..."
-4. Select `manifest.json` from the project folder
+1. Download the `.xpi` file from [releases](https://github.com/theminji/chatgpt-history-blur-firefox/releases/)
+2. Open it in Firefox and it should automatically install.
 
 ## Usage
 - Click **"Show chats" / "Hide chats"** to toggle blur on/off
